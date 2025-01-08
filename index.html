@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hex String Parser & Generator</title>
+    <style>
+        /* Previous styles remain the same */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 28px;
+            background-color: #f5f5f5;
+            height: 100vh;
+            box-sizing: border-box;
+            overflow: hidden;
+            font-size: 16px;
+        }
+        .main-container {
+            display: flex;
+            gap: 28px;
+            height: calc(100vh - 56px);
+        }
+        .card {
+            background: white;
+            padding: 28px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            flex: 1;
+            height: 100%;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+        .input-section {
+            margin-bottom: 28px;
+        }
+        input {
+            width: 100%;
+            padding: 14px;
+            font-family: monospace;
+            margin: 7px 0;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 2.1em;
+            font-weight: bold;
+            box-sizing: border-box;
+        }
+		#hexInput {
+			font-size: 1.8em;  /* This will make just the hex input smaller */
+		}
+        .preview {
+            font-family: monospace;
+            padding: 14px;
+            background: #f8f8f8;
+            border-radius: 6px;
+            margin: 14px 0;
+            white-space: pre-wrap;
+            word-break: break-all;
+            font-size: 1.8em;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 21px;
+            margin-top: 28px;
+        }
+        .timestamp {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 21px;
+            margin-top: 21px;
+        }
+        .timestamp div {
+            text-align: center;
+        }
+        
+        /* New styles for boxed values */
+        .value-box {
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            padding: 14px;
+            margin-top: 7px;
+            background-color: #f8f8f8;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+        }
+        .value {
+            font-size: 1.75em;
+            width: 100%;
+        }
+        .timestamp .value-box {
+            min-height: 40px;
+            justify-content: center;
+        }
+        
+        .generator-input {
+            padding: 10px;
+            margin: 7px 0;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 1.6em;
+        }
+        h1 {
+            color: #333;
+            margin: 0 0 28px 0;
+            font-size: 2.6em;
+        }
+        label {
+            font-weight: bold;
+            color: #666;
+            font-size: 1.6em;
+        }
+        button {
+            background-color: #3b82f6;
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.75em;
+            margin-top: 21px;
+        }
+        button:hover {
+            background-color: #2563eb;
+        }
+        .result-section {
+            margin-top: 28px;
+            padding: 21px;
+            background: #f8f8f8;
+            border-radius: 6px;
+        }
+        select.generator-input {
+            height: 56px;
+            font-size: 1.6em;
+        }
+        .copy-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .copy-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Parser Section -->
+        <div class="card">
+            <h1>Hex String Parser</h1>
+            
+            <div class="input-section">
+                <label for="hexInput">Hex String Input:</label>
+                <input type="text" id="hexInput" 
+                       value="DC13006694000022220000000000000000000000000000A70B513X4007E901010600">
+                <div id="preview" class="preview"></div>
+            </div>
+
+            <div class="grid">
+                <div>
+                    <label style="color: #ff00ff">Receiver Number:</label>
+                    <div class="value-box">
+                        <div id="receiverNumber" class="value"></div>
+                    </div>
+                </div>
+                <div>
+                    <label style="color: #22c55e">Index:</label>
+                    <div class="value-box">
+                        <div id="index" class="value"></div>
+                    </div>
+                </div>
+                <div>
+                    <label style="color: #f97316">Type:</label>
+                    <div class="value-box">
+                        <div id="type" class="value"></div>
+                    </div>
+                </div>
+                <div>
+                    <label style="color: #3b82f6">Account (KP id):</label>
+                    <div class="value-box">
+                        <div id="account" class="value"></div>
+                    </div>
+                </div>
+                <div>
+                    <label style="color: #ef4444">Current Reading:</label>
+                    <div class="value-box">
+                        <div id="currentReading" class="value"></div>
+                    </div>
+                </div>
+                <div>
+                    <label style="color: #a855f7">Data:</label>
+                    <div class="value-box">
+                        <div id="data" class="value"></div>
+                    </div>
+                </div>
+                <div>
+                    <label style="color: #d8c724">Signal Strength:</label>
+                    <div class="value-box">
+                        <div id="signalStrength" class="value"></div>
+                    </div>
+                </div>
+                <div>
+                    <label style="color: #ff00ff">Repeater #:</label>
+                    <div class="value-box">
+                        <div id="repeater" class="value"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timestamp">
+                <div>
+                    <label style="color: #40ff00">Year</label>
+                    <div class="value-box">
+                        <div id="year" class="value"></div>
+                    </div>
+                </div>
+                <div>
+                    <label style="color: #0ea5e9">Month</label>
+                    <div class="value-box">
+                        <div id="month" class="value"></div>
+                    </div>
+                </div>
+                <div>
+                    <label style="color: #ca8a04">Day</label>
+                    <div class="value-box">
+                        <div id="day" class="value"></div>
+                    </div>
+                </div>
+                <div>
+                    <label style="color: #15803d">Hour</label>
+                    <div class="value-box">
+                        <div id="hour" class="value"></div>
+                    </div>
+                </div>
+                <div>
+                    <label style="color: #ef4444">Min</label>
+                    <div class="value-box">
+                        <div id="minute" class="value"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Generator Section -->
+        <div class="card">
+            <h1>Hex String Generator</h1>
+            
+            <div class="grid">
+                <div>
+                    <label style="color: #ff00ff">Receiver Number:</label>
+                    <input type="number" id="genReceiverNumber" class="generator-input" min="0" max="15" value="1">
+                </div>
+                <div>
+                    <label style="color: #22c55e">Index:</label>
+                    <input type="number" id="genIndex" class="generator-input"  min="0" max="8" value="3">
+                </div>
+                <div>
+                    <label style="color: #f97316">Type:</label>
+                    <select id="genType" class="generator-input">
+                        <option value="0">Absolute value of the meter</option>
+                        <option value="1">Received signal strength indication</option>
+                        <option value="3">Previous Reading</option>
+                        <option value="4">Analog</option>
+                        <option value="5">Previous Analog Reading</option>
+                        <option value="6">Serial Number of the Meter (Installation)</option>
+                        <option value="7">Event</option>
+                        <option value="E">On-Demand</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="color: #3b82f6">Account (KP id):</label>
+                    <input type="number" id="genAccount" class="generator-input" value="26260">
+                </div>
+                <div>
+                    <label style="color: #ef4444">Current Reading:</label>
+                    <input type="number" id="genCurrentReading" class="generator-input" value="8738">
+                </div>
+                <div>
+                    <label style="color: #a855f7">Data:</label>
+                    <input type="number" id="genData" class="generator-input" value="167">
+                </div>
+                <div>
+                    <label style="color: #d8c724">Signal Strength:</label>
+                    <input type="number" id="genSignalStrength" class="generator-input" min="0"  max="255" value="181">
+                </div>
+                <div>
+                    <label style="color: #ff00ff">Repeater #:</label>
+                    <input type="number" id="genRepeater" class="generator-input" min="0"  max="255" value="19">
+                </div>
+            </div>
+
+            <div class="timestamp">
+                <div>
+                    <label style="color: #40ff00">Year</label>
+                    <input type="number" id="genYear" class="generator-input" min="2000" max="2050" value="2025">
+                </div>
+                <div>
+                    <label style="color: #0ea5e9">Month</label>
+                    <input type="number" id="genMonth" class="generator-input" min="1" max="12" value="1">
+                </div>
+                <div>
+                    <label style="color: #ca8a04">Day</label>
+                    <input type="number" id="genDay" class="generator-input" min="1" max="31" value="1">
+                </div>
+                <div>
+                    <label style="color: #15803d">Hour</label>
+                    <input type="number" id="genHour" class="generator-input" min="0" max="23" value="6">
+                </div>
+                <div>
+                    <label style="color: #ef4444">Min</label>
+					<select id="genMinute" class="generator-input">
+						<option value="00">00</option>
+						<option value="15">15</option>
+						<option value="30">30</option>
+						<option value="45">45</option>
+					</select>
+                </div>
+            </div>
+
+            <button onclick="generateHexString()">Generate</button>
+
+            <div class="result-section">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <label>Generated Hex String:</label>
+                    <button onclick="copyHexString()" class="copy-button">
+                        Copy to Clipboard
+                    </button>
+                </div>
+                <div id="generatedHex" class="preview"></div>
+            </div>
+        </div>
+    </div>
+
+<script>
+        // Helper function to extract substring (similar to Excel's MID)
+        function mid(text, start, length) {
+            return text.substr(start - 1, length);
+        }
+
+        // Helper function to convert hex to decimal
+        function hex2dec(hex) {
+            return parseInt(hex, 16).toString();
+        }
+
+        // Helper function to convert decimal to hex with padding
+        function dec2hex(dec, padding = 2) {
+            return parseInt(dec).toString(16).padStart(padding, '0').toUpperCase();
+        }
+
+        // Function to calculate XOR checksum
+        function calculateChecksum(str) {
+            return 'X40'
+        }
+
+        // Function to determine the type based on the value
+        function getType(typeChar) {
+            const types = {
+                '0': 'Absolute value of the meter',
+                '1': 'Received signal strength indication',
+                '3': 'Previous Reading',
+                '4': 'Analog',
+                '5': 'Previous Analog Reading',
+                '6': 'Serial Number of the Meter (Installation)',
+                '7': 'Event',
+                'E': 'On-Demand'
+            };
+            return types[typeChar] || 'Unknown';
+        }
+
+        // Function to render colored preview
+        function renderColoredPreview(str) {
+            // Remove X from start and end if present
+            str = str.replace(/^X|X$/g, '');
+            
+            const parts = [
+                { text: str.slice(0, 3), color: '#000000' },     // First 3 chars (gray)
+                { text: str.slice(3, 4), color: '#ff00ff' },     // Receiver number 
+                { text: str.slice(4, 5), color: '#22c55e' },     // Index (green)
+                { text: str.slice(5, 6), color: '#f97316' },     // Type (pink)
+                { text: str.slice(6, 11), color: '#3b82f6' },    // Account (blue)
+                { text: str.slice(11, 19), color: '#ef4444' },   // Current reading (red)
+                { text: str.slice(19, 49), color: '#a855f7' },   // Data (purple) - 30 chars
+                { text: str.slice(49, 50), color: '#000000' },   // Channel
+                { text: str.slice(50, 52), color: '#d8c724' },   // Signal Strength
+                { text: str.slice(52, 54), color: '#ff00ff' },   // Repeater Number
+                { text: str.slice(54, 57), color: '#000000' },   // ETX + Checksum
+                { text: str.slice(57, 61), color: '#40ff00' },   // Year
+                { text: str.slice(61, 63), color: '#0ea5e9' },   // Month
+                { text: str.slice(63, 65), color: '#ca8a04' },   // Day
+                { text: str.slice(65, 67), color: '#15803d' },   // Hour
+                { text: str.slice(67, 69), color: '#ef4444' },   // Minute
+            ];
+
+            let html = '';
+            parts.forEach(part => {
+                html += `<span style="color: ${part.color}">${part.text}</span>`;
+            });
+            
+            return html;
+        }
+
+        // Function to parse hex string
+        function parseHexString(hexString) {
+            try {
+                // Update preview
+                document.getElementById('preview').innerHTML = renderColoredPreview(hexString);
+                
+                // Parse and update all values
+                document.getElementById('receiverNumber').textContent = mid(hexString, 4, 1);
+                document.getElementById('index').textContent = mid(hexString, 5, 1);
+                document.getElementById('type').textContent = getType(mid(hexString, 6, 1));
+                document.getElementById('account').textContent = hex2dec(mid(hexString, 7, 5));
+                document.getElementById('currentReading').textContent = hex2dec(mid(hexString, 12, 8));
+                document.getElementById('data').textContent = hex2dec(mid(hexString, 20, 30));
+                document.getElementById('signalStrength').textContent = hex2dec(mid(hexString, 51, 2));
+                document.getElementById('repeater').textContent = hex2dec(mid(hexString, 53, 2));
+                
+                // Time tag parsing
+                document.getElementById('year').textContent = hex2dec(mid(hexString, 58, 4));
+                document.getElementById('month').textContent = hex2dec(mid(hexString, 62, 2));
+                document.getElementById('day').textContent = hex2dec(mid(hexString, 64, 2));
+                document.getElementById('hour').textContent = hex2dec(mid(hexString, 66, 2));
+                document.getElementById('minute').textContent = hex2dec(mid(hexString, 68, 2));
+            } catch (error) {
+                console.error('Error parsing hex string:', error);
+            }
+        }
+
+        // Function to validate input values
+        function validateInput(value, min, max) {
+            const num = parseInt(value);
+            return !isNaN(num) && num >= min && num <= max;
+        }
+
+        // Function to generate hex string
+        function generateHexString() {
+            try {
+                // Get all input values
+                const receiverNumber = document.getElementById('genReceiverNumber').value;
+                const index = document.getElementById('genIndex').value;
+                const type = document.getElementById('genType').value;
+                const account = document.getElementById('genAccount').value;
+                const currentReading = document.getElementById('genCurrentReading').value;
+                const data = document.getElementById('genData').value;
+                const signalStrength = document.getElementById('genSignalStrength').value;
+                const repeater = document.getElementById('genRepeater').value;
+                const year = document.getElementById('genYear').value;
+                const month = document.getElementById('genMonth').value;
+                const day = document.getElementById('genDay').value;
+                const hour = document.getElementById('genHour').value;
+                const minute = document.getElementById('genMinute').value;
+
+                // Validate inputs
+                if (!validateInput(year, 2000, 9999) || 
+                    !validateInput(month, 1, 12) || 
+                    !validateInput(day, 1, 31) || 
+                    !validateInput(hour, 0, 23) || 
+                    !validateInput(minute, 0, 59)) {
+                    alert('Please check your input values. Make sure they are within valid ranges.');
+                    return;
+                }
+
+                // Start building the hex string
+                let hexString = 'DC'; // STX + Constants
+                hexString += dec2hex(receiverNumber, 1);  // Convert to 1-digit hex
+                hexString += dec2hex(index, 1);  // Convert to 1-digit hex
+                hexString += type;
+                hexString += dec2hex(account, 5);
+                hexString += dec2hex(currentReading, 8);
+                hexString += dec2hex(data, 30).padStart(30, '0');
+                hexString += '0'; // Channel (fixed to 0)
+                hexString += dec2hex(signalStrength, 2);
+                hexString += dec2hex(repeater, 2);
+                hexString += 'X40'; //checksum
+
+                // Add time tag
+                hexString += dec2hex(year, 4);
+                hexString += dec2hex(month, 2);
+                hexString += dec2hex(day, 2);
+                hexString += dec2hex(hour, 2);
+                hexString += dec2hex(minute, 2);
+
+                // Add trailer characters
+                //hexString += '0D0A'; // <CR><LF>
+
+                // Update the generated hex string and preview
+                document.getElementById('generatedHex').innerHTML = renderColoredPreview(hexString);
+            } catch (error) {
+                console.error('Error generating hex string:', error);
+                alert('Error generating hex string. Please check your input values.');
+            }
+        }
+
+        // Set up event listeners
+        document.getElementById('hexInput').addEventListener('input', function(e) {
+            parseHexString(e.target.value);
+        });
+
+        // Initial parse
+        parseHexString(document.getElementById('hexInput').value);
+
+        function copyHexString() {
+    // Get the hex string text (without the color formatting)
+    const hexString = document.getElementById('generatedHex')
+                             .textContent
+                             .trim();
+    
+    // Copy to clipboard
+    navigator.clipboard.writeText(hexString)
+        .then(() => {
+            // Get the button
+            const button = document.querySelector('.copy-button');
+            // Change button text to "Copied!"
+            button.textContent = 'Copied!';
+            
+            // Reset button text back to "Copy" after 1.5 seconds
+            setTimeout(() => {
+                button.textContent = 'Copy';
+            }, 1500);
+        })
+        .catch(err => {
+            console.error('Failed to copy text: ', err);
+            alert('Failed to copy to clipboard');
+        });
+}
+        
+</script>
+
+</body>
+
+</html>
