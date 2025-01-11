@@ -9,16 +9,16 @@
   <body>
     <!-- Tab buttons -->
     <div class="tabs">
-      <button class="tab-button active" onclick="showTab('installation')">
-        Installation
-      </button>
-      <button class="tab-button" onclick="showTab('meter')">
+      <button class="tab-button active" onclick="showTab('meter')">
         Meter Reading
+      </button>
+      <button class="tab-button" onclick="showTab('installation')">
+        Installation
       </button>
     </div>
 
     <!-- Installation KP Tab -->
-    <div id="installation" class="tab-content active">
+    <div id="installation" class="tab-content">
       <div class="main-container">
         <!-- Installation Parser Section -->
         <div class="card">
@@ -369,7 +369,7 @@
     </div>
 
     <!-- Meter Reading KP Tab -->
-    <div id="meter" class="tab-content">
+    <div id="meter" class="tab-content active">
       <div class="main-container">
         <!-- Meter Parser Section -->
         <div class="card">
@@ -731,7 +731,7 @@
           3: `<span style="color: red; text-decoration: line-through">Previous Reading</span>`,
           4: `<span style="color: red; text-decoration: line-through">Analog</span>`,
           5: `<span style="color: red; text-decoration: line-through">Previous Analog Reading</span>`,
-          6: `<span style="color: green">Serial Number of the Meter (Installation)</span>`,
+          6: `<span>Serial Number of the Meter (Installation)</span>`,
           7: `<span style="color: red; text-decoration: line-through">Event</span>`,
           E: `<span style="color: red; text-decoration: line-through">On-Demand</span>`,
         };
@@ -794,7 +794,7 @@
       // Meter-specific functions
       function getMeterType(typeChar) {
         const types = {
-          0: `<span style="color: green">Absolute value of the meter</span>`,
+          0: `<span>Absolute value of the meter</span>`,
           1: `<span style="color: red; text-decoration: line-through">Received signal strength indication</span>`,
           3: `<span style="color: red; text-decoration: line-through">Previous Reading</span>`,
           4: `<span style="color: red; text-decoration: line-through">Analog</span>`,
