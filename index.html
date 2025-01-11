@@ -3,458 +3,851 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hex String Parser & Generator</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 28px;
-        background-color: #f5f5f5;
-        height: 100vh;
-        box-sizing: border-box;
-        overflow: hidden;
-        font-size: 16px;
-      }
-      .main-container {
-        display: flex;
-        gap: 28px;
-        height: calc(100vh - 56px);
-      }
-      .card {
-        background: white;
-        padding: 28px;
-        border-radius: 12px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        flex: 1;
-        height: 100%;
-        box-sizing: border-box;
-        overflow-y: auto;
-      }
-      .input-section {
-        margin-bottom: 28px;
-      }
-      input {
-        width: 100%;
-        padding: 14px;
-        font-family: monospace;
-        margin: 7px 0;
-        border: 2px solid #ddd;
-        border-radius: 6px;
-        font-size: 2.1em;
-        font-weight: bold;
-        box-sizing: border-box;
-      }
-      #hexInput {
-        font-size: 1.8em; /* This will make just the hex input smaller */
-      }
-      .preview {
-        font-family: monospace;
-        padding: 14px;
-        background: #f8f8f8;
-        border-radius: 6px;
-        margin: 14px 0;
-        white-space: pre-wrap;
-        word-break: break-all;
-        font-size: 1.8em;
-        font-weight: bold;
-        line-height: 1.2;
-      }
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 21px;
-        margin-top: 28px;
-      }
-      .timestamp {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 21px;
-        margin-top: 21px;
-      }
-      .timestamp div {
-        text-align: center;
-      }
-
-      /* New styles for boxed values */
-      .value-box {
-        border: 2px solid #ddd;
-        border-radius: 14px;
-        padding: 10px;
-        margin-top: 7px;
-        background-color: #f8f8f8;
-        min-height: 50px;
-        display: flex;
-        align-items: center;
-      }
-      .value {
-        font-size: 1.75em;
-        width: 100%;
-      }
-      .timestamp .value-box {
-        min-height: 40px;
-        justify-content: center;
-      }
-
-      .generator-input {
-        padding: 10px;
-        margin: 7px 0;
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        width: 100%;
-        box-sizing: border-box;
-        font-size: 1.6em;
-      }
-      h1 {
-        color: #333;
-        margin: 0 0 28px 0;
-        font-size: 2.6em;
-      }
-      label {
-        font-weight: bold;
-        color: #666;
-        font-size: 1.6em;
-      }
-      button {
-        background-color: #3b82f6;
-        color: white;
-        padding: 14px 28px;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 1.75em;
-        margin-top: 21px;
-      }
-      button:hover {
-        background-color: #2563eb;
-      }
-      .result-section {
-        margin-top: 28px;
-        padding: 21px;
-        background: #f8f8f8;
-        border-radius: 6px;
-      }
-      select.generator-input {
-        height: 56px;
-        font-size: 1.6em;
-      }
-      .copy-button {
-        background-color: #4caf50;
-        color: white;
-        padding: 8px 16px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 14px;
-      }
-      .copy-button:hover {
-        background-color: #45a049;
-      }
-    </style>
+    <title>KP String Parser & Generator</title>
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="main-container">
-      <!-- Parser Section -->
-      <div class="card">
-        <h1>Meter Reading Parser</h1>
+    <!-- Tab buttons -->
+    <div class="tabs">
+      <button class="tab-button active" onclick="showTab('installation')">
+        Installation
+      </button>
+      <button class="tab-button" onclick="showTab('meter')">
+        Meter Reading
+      </button>
+    </div>
 
-        <div class="input-section">
-          <label for="hexInput">Hex String Input:</label>
-          <input
-            type="text"
-            id="hexInput"
-            value="DC13006694000022220000000000000000000000000000A70B513X4007E901010600"
-          />
-          <div id="preview" class="preview"></div>
+    <!-- Installation KP Tab -->
+    <div id="installation" class="tab-content active">
+      <div class="main-container">
+        <!-- Installation Parser Section -->
+        <div class="card">
+          <h1>Installation String Parser</h1>
+
+          <div class="input-section">
+            <label for="hexInput">Hex String Input:</label>
+            <input
+              type="text"
+              id="hexInput"
+              value="DC146024E3000000000000000000000C04074CAE999999980B2FAX4007E80C0C0B2C"
+            />
+            <div id="preview" class="preview"></div>
+          </div>
+
+          <div class="grid">
+            <div>
+              <label style="color: #ff00ff">Receiver Number:</label>
+              <div class="value-box">
+                <div id="receiverNumber" class="value"></div>
+              </div>
+            </div>
+            <div>
+              <label style="color: #22c55e">Index:</label>
+              <div class="value-box">
+                <div id="index" class="value"></div>
+              </div>
+            </div>
+            <div>
+              <label style="color: #f97316">Type:</label>
+              <div class="value-box">
+                <div id="type" class="value"></div>
+              </div>
+            </div>
+            <div>
+              <label style="color: #3b82f6">Account (KP id):</label>
+              <div class="value-box">
+                <div id="account" class="value"></div>
+              </div>
+            </div>
+            <div>
+              <label style="color: #ef4444">Factor:</label>
+              <div class="value-box">
+                <div id="factor" class="value"></div>
+              </div>
+            </div>
+            <div>
+              <label style="color: #22c55e">Medium:</label>
+              <div class="value-box">
+                <div id="medium" class="value"></div>
+              </div>
+            </div>
+            <div>
+              <label style="color: #cc7400">Manufacturer:</label>
+              <div class="value-box">
+                <div id="manufacturer" class="value"></div>
+              </div>
+            </div>
+            <div>
+              <label style="color: #a855f7">Meter S/N:</label>
+              <div class="value-box">
+                <div id="sn" class="value"></div>
+              </div>
+            </div>
+            <div>
+              <label style="color: #d8c724">Signal Strength:</label>
+              <div class="value-box">
+                <div id="signalStrength" class="value"></div>
+              </div>
+            </div>
+            <div>
+              <label style="color: #ff00ff">Repeater #:</label>
+              <div class="value-box">
+                <div id="repeater" class="value"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="timestamp">
+            <div>
+              <label style="color: #40ff00">Year</label>
+              <div class="value-box">
+                <div id="year" class="value"></div>
+              </div>
+            </div>
+            <div>
+              <label style="color: #0ea5e9">Month</label>
+              <div class="value-box">
+                <div id="month" class="value"></div>
+              </div>
+            </div>
+            <div>
+              <label style="color: #ca8a04">Day</label>
+              <div class="value-box">
+                <div id="day" class="value"></div>
+              </div>
+            </div>
+            <div>
+              <label style="color: #15803d">Hour</label>
+              <div class="value-box">
+                <div id="hour" class="value"></div>
+              </div>
+            </div>
+            <div>
+              <label style="color: #ef4444">Min</label>
+              <div class="value-box">
+                <div id="minute" class="value"></div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="grid">
-          <div>
-            <label style="color: #ff00ff">Receiver Number:</label>
-            <div class="value-box">
-              <div id="receiverNumber" class="value"></div>
-            </div>
-          </div>
-          <div>
-            <label style="color: #22c55e">Index:</label>
-            <div class="value-box">
-              <div id="index" class="value"></div>
-            </div>
-          </div>
-          <div>
-            <label style="color: #f97316">Type:</label>
-            <div class="value-box">
-              <div id="type" class="value"></div>
-            </div>
-          </div>
-          <div>
-            <label style="color: #3b82f6">Account (KP id):</label>
-            <div class="value-box">
-              <div id="account" class="value"></div>
-            </div>
-          </div>
-          <div>
-            <label style="color: #ef4444">Current Reading:</label>
-            <div class="value-box">
-              <div id="currentReading" class="value"></div>
-            </div>
-          </div>
-          <div>
-            <label style="color: #a855f7">Data:</label>
-            <div class="value-box">
-              <div id="data" class="value"></div>
-            </div>
-          </div>
-          <div>
-            <label style="color: #d8c724">Signal Strength:</label>
-            <div class="value-box">
-              <div id="signalStrength" class="value"></div>
-            </div>
-          </div>
-          <div>
-            <label style="color: #ff00ff">Repeater #:</label>
-            <div class="value-box">
-              <div id="repeater" class="value"></div>
-            </div>
-          </div>
-        </div>
+        <!-- Installation Generator Section -->
+        <div class="card">
+          <h1>Installation String Generator</h1>
 
-        <div class="timestamp">
-          <div>
-            <label style="color: #40ff00">Year</label>
-            <div class="value-box">
-              <div id="year" class="value"></div>
+          <div class="grid">
+            <div>
+              <label style="color: #ff00ff">Receiver Number:</label>
+              <input
+                type="number"
+                id="genReceiverNumber"
+                class="generator-input"
+                min="0"
+                max="15"
+                value="1"
+              />
+            </div>
+            <div>
+              <label style="color: #22c55e">Index:</label>
+              <input
+                type="number"
+                id="genIndex"
+                class="generator-input"
+                min="0"
+                max="8"
+                value="4"
+              />
+            </div>
+            <div>
+              <label style="color: #f97316">Type:</label>
+              <select id="genType" class="generator-input">
+                <option
+                  value="0"
+                  disabled
+                  style="color: #999; background-color: #f1f1f1"
+                >
+                  Absolute value of the meter
+                </option>
+
+                <option
+                  value="1"
+                  disabled
+                  style="color: #999; background-color: #f1f1f1"
+                >
+                  Received signal strength indication
+                </option>
+                <option
+                  value="3"
+                  disabled
+                  style="color: #999; background-color: #f1f1f1"
+                >
+                  Previous Reading
+                </option>
+                <option
+                  value="4"
+                  disabled
+                  style="color: #999; background-color: #f1f1f1"
+                >
+                  Analog
+                </option>
+                <option
+                  value="5"
+                  disabled
+                  style="color: #999; background-color: #f1f1f1"
+                >
+                  Previous Analog Reading
+                </option>
+                <option value="6">
+                  Serial Number of the Meter (Installation)
+                </option>
+                <option
+                  value="7"
+                  disabled
+                  style="color: #999; background-color: #f1f1f1"
+                >
+                  Event
+                </option>
+                <option
+                  value="E"
+                  disabled
+                  style="color: #999; background-color: #f1f1f1"
+                >
+                  On-Demand
+                </option>
+              </select>
+            </div>
+            <div>
+              <label style="color: #3b82f6">Account (KP id):</label>
+              <input
+                type="number"
+                id="genAccount"
+                class="generator-input"
+                value="9443"
+              />
+            </div>
+            <div>
+              <label style="color: #ef4444">Factor:</label>
+              <select id="genFactor" class="generator-input">
+                <option value="0.000001">0.000001</option>
+                <option value="0.00001">0.00001</option>
+                <option value="0.0001">0.0001</option>
+                <option value="0.001">0.001</option>
+                <option value="0.01" selected>0.01</option>
+                <option value="0.1">0.1</option>
+                <option value="1">1</option>
+                <option value="10">10</option>
+              </select>
+            </div>
+            <div>
+              <label style="color: #22c55e">Medium:</label>
+              <select id="genMedium" class="generator-input">
+                <option value="07" selected>Water</option>
+                <option value="09">Security</option>
+                <option value="0F">Analog</option>
+              </select>
+            </div>
+            <div>
+              <label style="color: #cc7400">Manufacturer:</label>
+              <select id="genManufacturer" class="generator-input">
+                <option value="1592">Elster Meters</option>
+                <option value="4CAE" selected>Sensus Meters</option>
+                <option value="5345">Octave Meters</option>
+                <option value="2A18">Modbus Siemens MAG6000</option>
+                <option value="2A1B">Modbus Siemens MAG8000</option>
+                <option value="1A1F">Modbus ABB WaterMaster</option>
+                <option value="1A1D">Modbus ABB AquaMaster</option>
+                <option value="2B0E">Modbus KHRONE IFC300</option>
+                <option value="7A7B">Pulse Meter</option>
+              </select>
+            </div>
+            <div>
+              <label style="color: #a855f7">Meter S/N:</label>
+              <input
+                type="number"
+                id="genSerialNumber"
+                class="generator-input"
+                min="0"
+                max="99999999"
+                value="99999998"
+              />
+            </div>
+            <div>
+              <label style="color: #d8c724">Signal Strength:</label>
+              <input
+                type="number"
+                id="genSignalStrength"
+                class="generator-input"
+                min="0"
+                max="255"
+                value="178"
+              />
+            </div>
+            <div>
+              <label style="color: #ff00ff">Repeater #:</label>
+              <input
+                type="number"
+                id="genRepeater"
+                class="generator-input"
+                min="0"
+                max="255"
+                value="250"
+              />
             </div>
           </div>
-          <div>
-            <label style="color: #0ea5e9">Month</label>
-            <div class="value-box">
-              <div id="month" class="value"></div>
+
+          <div class="timestamp">
+            <div>
+              <label style="color: #40ff00">Year</label>
+              <input
+                type="number"
+                id="genYear"
+                class="generator-input"
+                min="2000"
+                max="2050"
+                value="2024"
+              />
+            </div>
+            <div>
+              <label style="color: #0ea5e9">Month</label>
+              <input
+                type="number"
+                id="genMonth"
+                class="generator-input"
+                min="1"
+                max="12"
+                value="12"
+              />
+            </div>
+            <div>
+              <label style="color: #ca8a04">Day</label>
+              <input
+                type="number"
+                id="genDay"
+                class="generator-input"
+                min="1"
+                max="31"
+                value="12"
+              />
+            </div>
+            <div>
+              <label style="color: #15803d">Hour</label>
+              <input
+                type="number"
+                id="genHour"
+                class="generator-input"
+                min="0"
+                max="23"
+                value="11"
+              />
+            </div>
+            <div>
+              <label style="color: #ef4444">Min</label>
+              <input
+                type="number"
+                id="genMinute"
+                class="generator-input"
+                min="00"
+                max="59"
+                value="44"
+              />
             </div>
           </div>
-          <div>
-            <label style="color: #ca8a04">Day</label>
-            <div class="value-box">
-              <div id="day" class="value"></div>
+
+          <button onclick="generateInstallationHexString()">Generate</button>
+
+          <div class="result-section">
+            <div style="display: flex; align-items: center; gap: 10px">
+              <label>Generated Hex String:</label>
+              <button onclick="copyInstallationHexString()" class="copy-button">
+                Copy
+              </button>
             </div>
-          </div>
-          <div>
-            <label style="color: #15803d">Hour</label>
-            <div class="value-box">
-              <div id="hour" class="value"></div>
-            </div>
-          </div>
-          <div>
-            <label style="color: #ef4444">Min</label>
-            <div class="value-box">
-              <div id="minute" class="value"></div>
-            </div>
+            <div id="generatedInstallationHex" class="preview"></div>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Generator Section -->
-      <div class="card">
-        <h1>Meter Reading Generator</h1>
+    <!-- Meter Reading KP Tab -->
+    <div id="meter" class="tab-content">
+      <div class="main-container">
+        <!-- Meter Parser Section -->
+        <div class="card">
+          <h1>Meter Reading Parser</h1>
 
-        <div class="grid">
-          <div>
-            <label style="color: #ff00ff">Receiver Number:</label>
+          <div class="input-section">
+            <label for="meterHexInput">Hex String Input:</label>
             <input
-              type="number"
-              id="genReceiverNumber"
-              class="generator-input"
-              min="0"
-              max="15"
-              value="1"
+              type="text"
+              id="meterHexInput"
+              value="DC13006694000022220000000000000000000000000000A70B513X4007E901010600"
             />
+            <div id="meterPreview" class="preview"></div>
           </div>
-          <div>
-            <label style="color: #22c55e">Index:</label>
-            <input
-              type="number"
-              id="genIndex"
-              class="generator-input"
-              min="0"
-              max="8"
-              value="3"
-            />
+
+          <div class="grid">
+            <div>
+              <label style="color: #ff00ff">Receiver Number:</label>
+              <div class="value-box">
+                <div id="meterReceiverNumber" class="value"></div>
+              </div>
+            </div>
+            <div>
+              <label style="color: #22c55e">Index:</label>
+              <div class="value-box">
+                <div id="meterIndex" class="value"></div>
+              </div>
+            </div>
+            <div>
+              <label style="color: #f97316">Type:</label>
+              <div class="value-box">
+                <div id="meterType" class="value"></div>
+              </div>
+            </div>
+            <div>
+              <label style="color: #3b82f6">Account (KP id):</label>
+              <div class="value-box">
+                <div id="meterAccount" class="value"></div>
+              </div>
+            </div>
+            <div>
+              <label style="color: #ef4444">Current Reading:</label>
+              <div class="value-box">
+                <div id="currentReading" class="value"></div>
+              </div>
+            </div>
+            <div>
+              <label style="color: #a855f7">Data:</label>
+              <div class="value-box">
+                <div id="data" class="value"></div>
+              </div>
+            </div>
+            <div>
+              <label style="color: #d8c724">Signal Strength:</label>
+              <div class="value-box">
+                <div id="meterSignalStrength" class="value"></div>
+              </div>
+            </div>
+            <div>
+              <label style="color: #ff00ff">Repeater #:</label>
+              <div class="value-box">
+                <div id="meterRepeater" class="value"></div>
+              </div>
+            </div>
           </div>
-          <div>
-            <label style="color: #f97316">Type:</label>
-            <select id="genType" class="generator-input">
-              <option value="0">Absolute value of the meter</option>
-              <option value="1">Received signal strength indication</option>
-              <option value="3">Previous Reading</option>
-              <option value="4">Analog</option>
-              <option value="5">Previous Analog Reading</option>
-              <option value="6">
-                Serial Number of the Meter (Installation)
-              </option>
-              <option value="7">Event</option>
-              <option value="E">On-Demand</option>
-            </select>
-          </div>
-          <div>
-            <label style="color: #3b82f6">Account (KP id):</label>
-            <input
-              type="number"
-              id="genAccount"
-              class="generator-input"
-              value="26260"
-            />
-          </div>
-          <div>
-            <label style="color: #ef4444">Current Reading:</label>
-            <input
-              type="number"
-              id="genCurrentReading"
-              class="generator-input"
-              value="8738"
-            />
-          </div>
-          <div>
-            <label style="color: #a855f7">Data:</label>
-            <input
-              type="number"
-              id="genData"
-              class="generator-input"
-              value="167"
-            />
-          </div>
-          <div>
-            <label style="color: #d8c724">Signal Strength:</label>
-            <input
-              type="number"
-              id="genSignalStrength"
-              class="generator-input"
-              min="0"
-              max="255"
-              value="181"
-            />
-          </div>
-          <div>
-            <label style="color: #ff00ff">Repeater #:</label>
-            <input
-              type="number"
-              id="genRepeater"
-              class="generator-input"
-              min="0"
-              max="255"
-              value="19"
-            />
+
+          <div class="timestamp">
+            <div>
+              <label style="color: #40ff00">Year</label>
+              <div class="value-box">
+                <div id="meterYear" class="value"></div>
+              </div>
+            </div>
+            <div>
+              <label style="color: #0ea5e9">Month</label>
+              <div class="value-box">
+                <div id="meterMonth" class="value"></div>
+              </div>
+            </div>
+            <div>
+              <label style="color: #ca8a04">Day</label>
+              <div class="value-box">
+                <div id="meterDay" class="value"></div>
+              </div>
+            </div>
+            <div>
+              <label style="color: #15803d">Hour</label>
+              <div class="value-box">
+                <div id="meterHour" class="value"></div>
+              </div>
+            </div>
+            <div>
+              <label style="color: #ef4444">Min</label>
+              <div class="value-box">
+                <div id="meterMinute" class="value"></div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="timestamp">
-          <div>
-            <label style="color: #40ff00">Year</label>
-            <input
-              type="number"
-              id="genYear"
-              class="generator-input"
-              min="2000"
-              max="2050"
-              value="2025"
-            />
-          </div>
-          <div>
-            <label style="color: #0ea5e9">Month</label>
-            <input
-              type="number"
-              id="genMonth"
-              class="generator-input"
-              min="1"
-              max="12"
-              value="1"
-            />
-          </div>
-          <div>
-            <label style="color: #ca8a04">Day</label>
-            <input
-              type="number"
-              id="genDay"
-              class="generator-input"
-              min="1"
-              max="31"
-              value="1"
-            />
-          </div>
-          <div>
-            <label style="color: #15803d">Hour</label>
-            <input
-              type="number"
-              id="genHour"
-              class="generator-input"
-              min="0"
-              max="23"
-              value="6"
-            />
-          </div>
-          <div>
-            <label style="color: #ef4444">Min</label>
-            <select id="genMinute" class="generator-input">
-              <option value="00">00</option>
-              <option value="15">15</option>
-              <option value="30">30</option>
-              <option value="45">45</option>
-            </select>
-          </div>
-        </div>
+        <!-- Meter Generator Section -->
+        <div class="card">
+          <h1>Meter Reading Generator</h1>
 
-        <button onclick="generateHexString()">Generate</button>
-
-        <div class="result-section">
-          <div style="display: flex; align-items: center; gap: 10px">
-            <label>Generated Hex String:</label>
-            <button onclick="copyHexString()" class="copy-button">Copy</button>
+          <div class="grid">
+            <div>
+              <label style="color: #ff00ff">Receiver Number:</label>
+              <input
+                type="number"
+                id="genMeterReceiverNumber"
+                class="generator-input"
+                min="0"
+                max="15"
+                value="1"
+              />
+            </div>
+            <div>
+              <label style="color: #22c55e">Index:</label>
+              <input
+                type="number"
+                id="genMeterIndex"
+                class="generator-input"
+                min="0"
+                max="8"
+                value="3"
+              />
+            </div>
+            <div>
+              <label style="color: #f97316">Type:</label>
+              <select id="genMeterType" class="generator-input">
+                <option value="0">Absolute value of the meter</option>
+                <option
+                  value="1"
+                  disabled
+                  style="color: #999; background-color: #f1f1f1"
+                >
+                  Received signal strength indication
+                </option>
+                <option
+                  value="3"
+                  disabled
+                  style="color: #999; background-color: #f1f1f1"
+                >
+                  Previous Reading
+                </option>
+                <option
+                  value="4"
+                  disabled
+                  style="color: #999; background-color: #f1f1f1"
+                >
+                  Analog
+                </option>
+                <option
+                  value="5"
+                  disabled
+                  style="color: #999; background-color: #f1f1f1"
+                >
+                  Previous Analog Reading
+                </option>
+                <option
+                  value="6"
+                  disabled
+                  style="color: #999; background-color: #f1f1f1"
+                >
+                  Serial Number of the Meter (Installation)
+                </option>
+                <option
+                  value="7"
+                  disabled
+                  style="color: #999; background-color: #f1f1f1"
+                >
+                  Event
+                </option>
+                <option
+                  value="E"
+                  disabled
+                  style="color: #999; background-color: #f1f1f1"
+                >
+                  On-Demand
+                </option>
+              </select>
+            </div>
+            <div>
+              <label style="color: #3b82f6">Account (KP id):</label>
+              <input
+                type="number"
+                id="genMeterAccount"
+                class="generator-input"
+                value="26260"
+              />
+            </div>
+            <div>
+              <label style="color: #ef4444">Current Reading:</label>
+              <input
+                type="number"
+                id="genCurrentReading"
+                class="generator-input"
+                value="8738"
+              />
+            </div>
+            <div>
+              <label style="color: #a855f7">Data:</label>
+              <input
+                type="number"
+                id="genData"
+                class="generator-input"
+                value="167"
+              />
+            </div>
+            <div>
+              <label style="color: #d8c724">Signal Strength:</label>
+              <input
+                type="number"
+                id="genMeterSignalStrength"
+                class="generator-input"
+                min="0"
+                max="255"
+                value="181"
+              />
+            </div>
+            <div>
+              <label style="color: #ff00ff">Repeater #:</label>
+              <input
+                type="number"
+                id="genMeterRepeater"
+                class="generator-input"
+                min="0"
+                max="255"
+                value="19"
+              />
+            </div>
           </div>
-          <div id="generatedHex" class="preview"></div>
+
+          <div class="timestamp">
+            <div>
+              <label style="color: #40ff00">Year</label>
+              <input
+                type="number"
+                id="genMeterYear"
+                class="generator-input"
+                min="2000"
+                max="2050"
+                value="2025"
+              />
+            </div>
+            <div>
+              <label style="color: #0ea5e9">Month</label>
+              <input
+                type="number"
+                id="genMeterMonth"
+                class="generator-input"
+                min="1"
+                max="12"
+                value="1"
+              />
+            </div>
+            <div>
+              <label style="color: #ca8a04">Day</label>
+              <input
+                type="number"
+                id="genMeterDay"
+                class="generator-input"
+                min="1"
+                max="31"
+                value="1"
+              />
+            </div>
+            <div>
+              <label style="color: #15803d">Hour</label>
+              <input
+                type="number"
+                id="genMeterHour"
+                class="generator-input"
+                min="0"
+                max="23"
+                value="6"
+              />
+            </div>
+            <div>
+              <label style="color: #ef4444">Min</label>
+              <select id="genMeterMinute" class="generator-input">
+                <option value="00">00</option>
+                <option value="15">15</option>
+                <option value="30">30</option>
+                <option value="45">45</option>
+              </select>
+            </div>
+          </div>
+
+          <button onclick="generateMeterHexString()">Generate</button>
+
+          <div class="result-section">
+            <div style="display: flex; align-items: center; gap: 10px">
+              <label>Generated Hex String:</label>
+              <button onclick="copyMeterHexString()" class="copy-button">
+                Copy
+              </button>
+            </div>
+            <div id="generatedMeterHex" class="preview"></div>
+          </div>
         </div>
       </div>
     </div>
 
     <script>
-      // function to extract substring (similar to Excel's MID)
+      // Tab switching functionality
+      function showTab(tabId) {
+        document.querySelectorAll(".tab-content").forEach((tab) => {
+          tab.classList.remove("active");
+        });
+        document.querySelectorAll(".tab-button").forEach((button) => {
+          button.classList.remove("active");
+        });
+        document.getElementById(tabId).classList.add("active");
+        document
+          .querySelector(`button[onclick="showTab('${tabId}')"]`)
+          .classList.add("active");
+      }
+
+      // Common utility functions
       function mid(text, start, length) {
         return text.substr(start - 1, length);
       }
 
-      // function to convert hex to decimal
       function hex2dec(hex) {
         return parseInt(hex, 16).toString();
       }
 
-      // function to convert decimal to hex with padding
+      function hex2bin(hexString) {
+        let binary = "";
+        for (let i = 0; i < hexString.length; i++) {
+          let hex = hexString[i];
+          let dec = parseInt(hex, 16);
+          let bin = dec.toString(2).padStart(4, "0");
+          binary += bin;
+        }
+        return binary;
+      }
+
+      function bin2dec(binary) {
+        return parseInt(binary, 2);
+      }
+
       function dec2hex(dec, padding = 2) {
         return parseInt(dec).toString(16).padStart(padding, "0").toUpperCase();
       }
 
-      // Function to determine the type based on the value
-      function getType(typeChar) {
-        const types = {
-          0: "Absolute value of the meter",
-          1: "Received signal strength indication",
-          3: "Previous Reading",
-          4: "Analog",
-          5: "Previous Analog Reading",
-          6: "Serial Number of the Meter (Installation)",
-          7: "Event",
-          E: "On-Demand",
-        };
-        return types[typeChar] || "Unknown";
+      function formatDecimal(number) {
+        let str = number.toFixed(6);
+        str = str.replace(/\.?0+$/, "");
+        return str;
       }
 
-      // Function to render colored preview
-      function renderColoredPreview(str) {
-        // Remove X from start and end if present
-        str = str.replace(/^X|X$/g, "");
+      // Installation-specific functions
+      function getInstallationType(typeChar) {
+        const types = {
+          0: `<span style="color: red; text-decoration: line-through">Absolute value of the meter</span>`,
+          1: `<span style="color: red; text-decoration: line-through">Received signal strength indication</span>`,
+          3: `<span style="color: red; text-decoration: line-through">Previous Reading</span>`,
+          4: `<span style="color: red; text-decoration: line-through">Analog</span>`,
+          5: `<span style="color: red; text-decoration: line-through">Previous Analog Reading</span>`,
+          6: `<span style="color: green">Serial Number of the Meter (Installation)</span>`,
+          7: `<span style="color: red; text-decoration: line-through">Event</span>`,
+          E: `<span style="color: red; text-decoration: line-through">On-Demand</span>`,
+        };
+        return (
+          types[typeChar] ||
+          `<span style="color: red; text-decoration: line-through">Unknown</span>`
+        );
+      }
 
+      function getMedium(mediumHex) {
+        const mediumValue = parseInt(mediumHex, 16);
+        switch (mediumValue) {
+          case 7:
+            return "Water";
+          case 9:
+            return "Security";
+          case 15:
+            return "Analog";
+          default:
+            return "Unknown";
+        }
+      }
+
+      function getManufacturer(manufacturerId) {
+        const manufacturers = {
+          1592: "Elster Meters",
+          "4CAE": "Sensus Meters",
+          5345: "Octave Meters",
+          "2A18": "Modbus Siemens MAG6000",
+          "2A1B": "Modbus Siemens MAG8000",
+          "1A1F": "Modbus ABB WaterMaster",
+          "1A1D": "Modbus ABB AquaMaster",
+          "2B0E": "Modbus KHRONE IFC300",
+          "7A7B": "Pulse Meter",
+        };
+        return manufacturers[manufacturerId] || "Unknown";
+      }
+
+      function calculateFactorHex(factorValue) {
+        switch (factorValue) {
+          case "0.000001":
+            return "00";
+          case "0.00001":
+            return "01";
+          case "0.0001":
+            return "02";
+          case "0.001":
+            return "03";
+          case "0.01":
+            return "04";
+          case "0.1":
+            return "05";
+          case "1":
+            return "06";
+          case "10":
+            return "07";
+        }
+      }
+
+      // Meter-specific functions
+      function getMeterType(typeChar) {
+        const types = {
+          0: `<span style="color: green">Absolute value of the meter</span>`,
+          1: `<span style="color: red; text-decoration: line-through">Received signal strength indication</span>`,
+          3: `<span style="color: red; text-decoration: line-through">Previous Reading</span>`,
+          4: `<span style="color: red; text-decoration: line-through">Analog</span>`,
+          5: `<span style="color: red; text-decoration: line-through">Previous Analog Reading</span>`,
+          6: `<span style="color: red; text-decoration: line-through">Serial Number of the Meter (Installation)</span>`,
+          7: `<span style="color: red; text-decoration: line-through">Event</span>`,
+          E: `<span style="color: red; text-decoration: line-through">On-Demand</span>`,
+        };
+        return (
+          types[typeChar] ||
+          `<span style="color: red; text-decoration: line-through">Unknown</span>`
+        );
+      }
+
+      // render colored preview
+      function renderInstallationPreview(str) {
         const parts = [
           { text: str.slice(0, 3), color: "#000000" }, // First 3 chars
           { text: str.slice(3, 4), color: "#ff00ff" }, // Receiver number
           { text: str.slice(4, 5), color: "#22c55e" }, // Index
           { text: str.slice(5, 6), color: "#f97316" }, // Type
           { text: str.slice(6, 11), color: "#3b82f6" }, // Account
+          { text: str.slice(11, 33), color: "#000000" }, // reserved
+          { text: str.slice(33, 35), color: "#ef4444" }, // factor
+          { text: str.slice(35, 37), color: "#22c55e" }, // medium
+          { text: str.slice(37, 41), color: "#cc7400" }, // water meter manufracturer
+          { text: str.slice(41, 49), color: "#a855f7" }, // Meter S/N
+          { text: str.slice(49, 50), color: "#000000" }, // Channel
+          { text: str.slice(50, 52), color: "#d8c724" }, // Signal Strength
+          { text: str.slice(52, 54), color: "#ff00ff" }, // Repeater Number
+          { text: str.slice(54, 57), color: "#000000" }, // ETX + Checksum
+          { text: str.slice(57, 61), color: "#40ff00" }, // Year
+          { text: str.slice(61, 63), color: "#0ea5e9" }, // Month
+          { text: str.slice(63, 65), color: "#ca8a04" }, // Day
+          { text: str.slice(65, 67), color: "#15803d" }, // Hour
+          { text: str.slice(67, 69), color: "#ef4444" }, // Minute
+        ];
+
+        let html = "";
+        parts.forEach((part) => {
+          html += `<span style="color: ${part.color}">${part.text}</span>`;
+        });
+
+        return html;
+      }
+
+      function renderMeterPreview(str) {
+        const parts = [
+          { text: str.slice(0, 3), color: "#000000" }, // STX + Constants (DC)
+          { text: str.slice(3, 4), color: "#ff00ff" }, // Receiver number
+          { text: str.slice(4, 5), color: "#22c55e" }, // Index
+          { text: str.slice(5, 6), color: "#f97316" }, // Type
+          { text: str.slice(6, 11), color: "#3b82f6" }, // Account (KP id)
           { text: str.slice(11, 19), color: "#ef4444" }, // Current reading
           { text: str.slice(19, 49), color: "#a855f7" }, // Data - 30 chars
           { text: str.slice(49, 50), color: "#000000" }, // Channel
@@ -476,32 +869,39 @@
         return html;
       }
 
-      // Function to parse hex string
-      function parseHexString(hexString) {
+      // Parse functions
+      function parseInstallationHexString(hexString) {
         try {
-          // Update preview
           document.getElementById("preview").innerHTML =
-            renderColoredPreview(hexString);
+            renderInstallationPreview(hexString);
 
-          // Parse and update all values
           document.getElementById("receiverNumber").textContent = mid(
             hexString,
             4,
             1
           );
           document.getElementById("index").textContent = mid(hexString, 5, 1);
-          document.getElementById("type").textContent = getType(
+          document.getElementById("type").innerHTML = getInstallationType(
             mid(hexString, 6, 1)
           );
           document.getElementById("account").textContent = hex2dec(
             mid(hexString, 7, 5)
           );
-          document.getElementById("currentReading").textContent = hex2dec(
-            mid(hexString, 12, 8)
+
+          document.getElementById("factor").textContent = mid(hexString, 34, 2);
+          let x = mid(hexString, 34, 2);
+          x = hex2bin(x);
+          x = bin2dec(x.slice(-3)) - 6;
+          let factor = 10 ** x;
+          document.getElementById("factor").textContent = formatDecimal(factor);
+
+          document.getElementById("medium").textContent = getMedium(
+            mid(hexString, 36, 2)
           );
-          document.getElementById("data").textContent = hex2dec(
-            mid(hexString, 20, 30)
+          document.getElementById("manufacturer").textContent = getManufacturer(
+            mid(hexString, 38, 4)
           );
+          document.getElementById("sn").textContent = mid(hexString, 42, 8);
           document.getElementById("signalStrength").textContent = hex2dec(
             mid(hexString, 51, 2)
           );
@@ -509,7 +909,6 @@
             mid(hexString, 53, 2)
           );
 
-          // Time tag parsing
           document.getElementById("year").textContent = hex2dec(
             mid(hexString, 58, 4)
           );
@@ -526,28 +925,76 @@
             mid(hexString, 68, 2)
           );
         } catch (error) {
-          console.error("Error parsing hex string:", error);
+          console.error("Error parsing installation hex string:", error);
         }
       }
 
-      // Function to validate input values
-      function validateInput(value, min, max) {
-        const num = parseInt(value);
-        return !isNaN(num) && num >= min && num <= max;
+      function parseMeterHexString(hexString) {
+        try {
+          document.getElementById("meterPreview").innerHTML =
+            renderMeterPreview(hexString);
+
+          document.getElementById("meterReceiverNumber").textContent = mid(
+            hexString,
+            4,
+            1
+          );
+          document.getElementById("meterIndex").textContent = mid(
+            hexString,
+            5,
+            1
+          );
+          document.getElementById("meterType").innerHTML = getMeterType(
+            mid(hexString, 6, 1)
+          );
+          document.getElementById("meterAccount").textContent = hex2dec(
+            mid(hexString, 7, 5)
+          );
+          document.getElementById("currentReading").textContent = hex2dec(
+            mid(hexString, 12, 8)
+          );
+          document.getElementById("data").textContent = hex2dec(
+            mid(hexString, 20, 30)
+          );
+          document.getElementById("meterSignalStrength").textContent = hex2dec(
+            mid(hexString, 51, 2)
+          );
+          document.getElementById("meterRepeater").textContent = hex2dec(
+            mid(hexString, 53, 2)
+          );
+
+          document.getElementById("meterYear").textContent = hex2dec(
+            mid(hexString, 58, 4)
+          );
+          document.getElementById("meterMonth").textContent = hex2dec(
+            mid(hexString, 62, 2)
+          );
+          document.getElementById("meterDay").textContent = hex2dec(
+            mid(hexString, 64, 2)
+          );
+          document.getElementById("meterHour").textContent = hex2dec(
+            mid(hexString, 66, 2)
+          );
+          document.getElementById("meterMinute").textContent = hex2dec(
+            mid(hexString, 68, 2)
+          );
+        } catch (error) {
+          console.error("Error parsing meter hex string:", error);
+        }
       }
 
-      // Function to generate hex string
-      function generateHexString() {
+      // Generate functions
+      function generateInstallationHexString() {
         try {
-          // Get all input values
           const receiverNumber =
             document.getElementById("genReceiverNumber").value;
           const index = document.getElementById("genIndex").value;
           const type = document.getElementById("genType").value;
           const account = document.getElementById("genAccount").value;
-          const currentReading =
-            document.getElementById("genCurrentReading").value;
-          const data = document.getElementById("genData").value;
+          const factor = document.getElementById("genFactor").value;
+          const medium = document.getElementById("genMedium").value;
+          const manufacturer = document.getElementById("genManufacturer").value;
+          const serial = document.getElementById("genSerialNumber").value;
           const signalStrength =
             document.getElementById("genSignalStrength").value;
           const repeater = document.getElementById("genRepeater").value;
@@ -557,7 +1004,6 @@
           const hour = document.getElementById("genHour").value;
           const minute = document.getElementById("genMinute").value;
 
-          // Validate inputs
           if (
             !validateInput(year, 2000, 9999) ||
             !validateInput(month, 1, 12) ||
@@ -565,63 +1011,114 @@
             !validateInput(hour, 0, 23) ||
             !validateInput(minute, 0, 59)
           ) {
-            alert("שגיאה באחד או יותר מרכיבי ה-timestamp");
+            alert("Error in timestamp values");
             return;
           }
 
-          // Start building the hex string
-          let hexString = "DC"; // STX + Constants
-          hexString += dec2hex(receiverNumber, 1); // Convert to 1-digit hex
-          hexString += dec2hex(index, 1); // Convert to 1-digit hex
+          let hexString = "DC";
+          hexString += dec2hex(receiverNumber, 1);
+          hexString += dec2hex(index, 1);
           hexString += type;
           hexString += dec2hex(account, 5);
-          hexString += dec2hex(currentReading, 8);
-          hexString += dec2hex(data, 30).padStart(30, "0");
-          hexString += "0"; // Channel (fixed to 0)
+          hexString += "000000000000000000000C";
+          hexString += calculateFactorHex(factor);
+          hexString += medium;
+          hexString += manufacturer;
+          hexString += serial;
+          hexString += "0";
           hexString += dec2hex(signalStrength, 2);
           hexString += dec2hex(repeater, 2);
-          hexString += "X40"; //checksum
-
-          // Add time tag
+          hexString += "X40";
           hexString += dec2hex(year, 4);
           hexString += dec2hex(month, 2);
           hexString += dec2hex(day, 2);
           hexString += dec2hex(hour, 2);
           hexString += dec2hex(minute, 2);
 
-          // Add trailer characters
-          //hexString += '0D0A'; // <CR><LF>
-
-          // Update the generated hex string and preview
-          document.getElementById("generatedHex").innerHTML =
-            renderColoredPreview(hexString);
+          document.getElementById("generatedInstallationHex").innerHTML =
+            renderInstallationPreview(hexString);
         } catch (error) {
-          console.error("Error generating hex string:", error);
+          console.error("Error generating installation hex string:", error);
           alert("Error generating hex string. Please check your input values.");
         }
       }
 
-      // Set up event listeners
-      document
-        .getElementById("hexInput")
-        .addEventListener("input", function (e) {
-          parseHexString(e.target.value);
-        });
+      function generateMeterHexString() {
+        try {
+          const receiverNumber = document.getElementById(
+            "genMeterReceiverNumber"
+          ).value;
+          const index = document.getElementById("genMeterIndex").value;
+          const type = document.getElementById("genMeterType").value;
+          const account = document.getElementById("genMeterAccount").value;
+          const currentReading =
+            document.getElementById("genCurrentReading").value;
+          const data = document.getElementById("genData").value;
+          const signalStrength = document.getElementById(
+            "genMeterSignalStrength"
+          ).value;
+          const repeater = document.getElementById("genMeterRepeater").value;
+          const year = document.getElementById("genMeterYear").value;
+          const month = document.getElementById("genMeterMonth").value;
+          const day = document.getElementById("genMeterDay").value;
+          const hour = document.getElementById("genMeterHour").value;
+          const minute = document.getElementById("genMeterMinute").value;
 
-      // Initial parse
-      parseHexString(document.getElementById("hexInput").value);
+          if (
+            !validateInput(year, 2000, 9999) ||
+            !validateInput(month, 1, 12) ||
+            !validateInput(day, 1, 31) ||
+            !validateInput(hour, 0, 23)
+          ) {
+            alert("Error in timestamp values");
+            return;
+          }
 
-      function copyHexString() {
-        // Get the hex string text (without the color formatting)
+          let hexString = "DC";
+          hexString += dec2hex(receiverNumber, 1);
+          hexString += dec2hex(index, 1);
+          hexString += type;
+          hexString += dec2hex(account, 5);
+          hexString += dec2hex(currentReading, 8);
+          hexString += dec2hex(data, 30).padStart(30, "0");
+          hexString += "0";
+          hexString += dec2hex(signalStrength, 2);
+          hexString += dec2hex(repeater, 2);
+          hexString += "X40";
+          hexString += dec2hex(year, 4);
+          hexString += dec2hex(month, 2);
+          hexString += dec2hex(day, 2);
+          hexString += dec2hex(hour, 2);
+          hexString += dec2hex(minute, 2);
+
+          document.getElementById("generatedMeterHex").innerHTML =
+            renderMeterPreview(hexString);
+        } catch (error) {
+          console.error("Error generating meter hex string:", error);
+          alert("Error generating hex string. Please check your input values.");
+        }
+      }
+
+      // Copy functions
+      function copyInstallationHexString() {
         const hexString = document
-          .getElementById("generatedHex")
+          .getElementById("generatedInstallationHex")
           .textContent.trim();
+        copyToClipboard(hexString, "installation");
+      }
 
-        // Copy to clipboard
+      function copyMeterHexString() {
+        const hexString = document
+          .getElementById("generatedMeterHex")
+          .textContent.trim();
+        copyToClipboard(hexString, "meter");
+      }
+
+      function copyToClipboard(text, type) {
         navigator.clipboard
-          .writeText(hexString)
+          .writeText(text)
           .then(() => {
-            const button = document.querySelector(".copy-button");
+            const button = document.querySelector(`#${type} .copy-button`);
             button.textContent = "Copied!";
             setTimeout(() => {
               button.textContent = "Copy";
@@ -632,6 +1129,29 @@
             alert("Failed to copy to clipboard");
           });
       }
+
+      // Validation function
+      function validateInput(value, min, max) {
+        const num = parseInt(value);
+        return !isNaN(num) && num >= min && num <= max;
+      }
+
+      // Event listeners
+      document
+        .getElementById("hexInput")
+        .addEventListener("input", function (e) {
+          parseInstallationHexString(e.target.value);
+        });
+
+      document
+        .getElementById("meterHexInput")
+        .addEventListener("input", function (e) {
+          parseMeterHexString(e.target.value);
+        });
+
+      // Initial parse
+      parseInstallationHexString(document.getElementById("hexInput").value);
+      parseMeterHexString(document.getElementById("meterHexInput").value);
     </script>
   </body>
 </html>
