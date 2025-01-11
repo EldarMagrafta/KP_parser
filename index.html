@@ -15,6 +15,7 @@
       <button class="tab-button" onclick="showTab('installation')">
         Installation
       </button>
+      <button class="tab-button" onclick="showTab('box')">Box</button>
     </div>
 
     <!-- Installation KP Tab -->
@@ -29,7 +30,7 @@
             <input
               type="text"
               id="hexInput"
-              value="DC146024E3000000000000000000000C04074CAE999999980B2FAX4007E80C0C0B2C"
+              value="DC146024E3000000000000000000000C04074CAE999999980B2FA4007E80C0C0B2C"
             />
             <div id="preview" class="preview"></div>
           </div>
@@ -380,7 +381,7 @@
             <input
               type="text"
               id="meterHexInput"
-              value="DC13006694000022220000000000000000000000000000A70B513X4007E901010600"
+              value="DC13006694000022220000000000000000000000000000A70B5134007E901010600"
             />
             <div id="meterPreview" class="preview"></div>
           </div>
@@ -669,6 +670,221 @@
               </button>
             </div>
             <div id="generatedMeterHex" class="preview"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="box" class="tab-content">
+      <div class="main-container">
+        <!-- Box Parser Section -->
+        <div class="card">
+          <h1>Box Parser</h1>
+
+          <div class="input-section">
+            <label for="boxHexInput">Hex String Input:</label>
+            <input
+              type="text"
+              id="boxHexInput"
+              value="DC1070C369000000000000000000000000000000000000210DE9A3407E80A090F04"
+            />
+            <div id="boxPreview" class="preview"></div>
+          </div>
+
+          <div class="grid">
+            <div>
+              <label style="color: #3b82f6">Account (KP id):</label>
+              <div class="value-box">
+                <div id="boxAccount" class="value"></div>
+              </div>
+            </div>
+            <div>
+              <label style="color: #22c55e">Index:</label>
+              <div class="value-box">
+                <div id="boxIndex" class="value"></div>
+              </div>
+            </div>
+            <div>
+              <label style="color: #d8c724">Signal Strength:</label>
+              <div class="value-box">
+                <div id="boxSignalStrength" class="value"></div>
+              </div>
+            </div>
+            <div>
+              <label style="color: #ff00ff">Repeater #:</label>
+              <div class="value-box">
+                <div id="boxRepeater" class="value"></div>
+              </div>
+            </div>
+            <div>
+              <label style="color: #f97316">Event Type:</label>
+              <div class="value-box">
+                <div id="boxEventType" class="value"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="timestamp">
+            <div>
+              <label style="color: #40ff00">Year</label>
+              <div class="value-box">
+                <div id="boxYear" class="value"></div>
+              </div>
+            </div>
+            <div>
+              <label style="color: #0ea5e9">Month</label>
+              <div class="value-box">
+                <div id="boxMonth" class="value"></div>
+              </div>
+            </div>
+            <div>
+              <label style="color: #ca8a04">Day</label>
+              <div class="value-box">
+                <div id="boxDay" class="value"></div>
+              </div>
+            </div>
+            <div>
+              <label style="color: #15803d">Hour</label>
+              <div class="value-box">
+                <div id="boxHour" class="value"></div>
+              </div>
+            </div>
+            <div>
+              <label style="color: #ef4444">Min</label>
+              <div class="value-box">
+                <div id="boxMinute" class="value"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Box Generator Section -->
+        <div class="card">
+          <h1>Box Generator</h1>
+
+          <div class="grid">
+            <div>
+              <label style="color: #3b82f6">Account (KP id):</label>
+              <input
+                type="number"
+                id="genBoxAccount"
+                class="generator-input"
+                value="50025"
+              />
+            </div>
+            <div>
+              <label style="color: #22c55e">Index:</label>
+              <input
+                type="number"
+                id="genBoxIndex"
+                class="generator-input"
+                min="0"
+                max="8"
+                value="0"
+              />
+            </div>
+            <div>
+              <label style="color: #d8c724">Signal Strength:</label>
+              <input
+                type="number"
+                id="genBoxSignalStrength"
+                class="generator-input"
+                min="0"
+                max="255"
+                value="222"
+              />
+            </div>
+            <div>
+              <label style="color: #ff00ff">Repeater #:</label>
+              <input
+                type="number"
+                id="genBoxRepeater"
+                class="generator-input"
+                min="0"
+                max="255"
+                value="154"
+              />
+            </div>
+            <div>
+              <label style="color: #f97316">Event Type:</label>
+              <select id="genBoxEventType" class="generator-input">
+                <option value="11">Door Opened</option>
+                <option value="21" selected>Door Closed</option>
+                <option value="12">Magnet</option>
+                <option value="00-testEvent">Test Event</option>
+                <option value="00-install">Install</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="timestamp">
+            <div>
+              <label style="color: #40ff00">Year</label>
+              <input
+                type="number"
+                id="genBoxYear"
+                class="generator-input"
+                min="2000"
+                max="2050"
+                value="2024"
+              />
+            </div>
+            <div>
+              <label style="color: #0ea5e9">Month</label>
+              <input
+                type="number"
+                id="genBoxMonth"
+                class="generator-input"
+                min="1"
+                max="12"
+                value="10"
+              />
+            </div>
+            <div>
+              <label style="color: #ca8a04">Day</label>
+              <input
+                type="number"
+                id="genBoxDay"
+                class="generator-input"
+                min="1"
+                max="31"
+                value="9"
+              />
+            </div>
+            <div>
+              <label style="color: #15803d">Hour</label>
+              <input
+                type="number"
+                id="genBoxHour"
+                class="generator-input"
+                min="0"
+                max="23"
+                value="15"
+              />
+            </div>
+            <div>
+              <label style="color: #ef4444">Min</label>
+              <input
+                type="number"
+                id="genBoxMinute"
+                class="generator-input"
+                min="00"
+                max="59"
+                value="4"
+              />
+            </div>
+          </div>
+
+          <button onclick="generateBoxHexString()">Generate</button>
+
+          <div class="result-section">
+            <div style="display: flex; align-items: center; gap: 10px">
+              <label>Generated Hex String:</label>
+              <button onclick="copyBoxHexString()" class="copy-button">
+                Copy
+              </button>
+            </div>
+            <div id="generatedBoxHex" class="preview"></div>
           </div>
         </div>
       </div>
@@ -1028,7 +1244,7 @@
           hexString += "0";
           hexString += dec2hex(signalStrength, 2);
           hexString += dec2hex(repeater, 2);
-          hexString += "X40";
+          hexString += "40";
           hexString += dec2hex(year, 4);
           hexString += dec2hex(month, 2);
           hexString += dec2hex(day, 2);
@@ -1084,7 +1300,7 @@
           hexString += "0";
           hexString += dec2hex(signalStrength, 2);
           hexString += dec2hex(repeater, 2);
-          hexString += "X40";
+          hexString += "40";
           hexString += dec2hex(year, 4);
           hexString += dec2hex(month, 2);
           hexString += dec2hex(day, 2);
@@ -1152,6 +1368,183 @@
       // Initial parse
       parseInstallationHexString(document.getElementById("hexInput").value);
       parseMeterHexString(document.getElementById("meterHexInput").value);
+
+      function getEventType(first_digits, second_digits) {
+        const eventValue = first_digits;
+        const additionalValue = parseInt(second_digits, 16);
+
+        console.log(first_digits);
+        console.log(second_digits);
+
+        if (eventValue === "11") return "Door Opened";
+        if (eventValue === "21") return "Door Closed";
+        if (eventValue === "12") return "Magnet";
+        if (eventValue === "00" && additionalValue === 0) return "Test Event";
+        if (eventValue === "00" && additionalValue === 9) return "Install";
+        return "Unknown";
+      }
+
+      function renderBoxPreview(str) {
+        const parts = [
+          { text: str.slice(0, 4), color: "#000000" }, // Header
+          { text: str.slice(4, 5), color: "#22c55e" }, // Index
+          { text: str.slice(5, 6), color: "#000000" }, // 
+          { text: str.slice(6, 11), color: "#3b82f6" }, // Account
+          { text: str.slice(11, 35), color: "#000000" }, //
+          { text: str.slice(35, 37), color: "#f97316" }, // Event Type secondary digits
+          { text: str.slice(37, 47), color: "#000000" }, //
+          { text: str.slice(47, 49), color: "#f97316" }, // Event Type primary digits
+          { text: str.slice(49, 50), color: "#000000" }, // stam
+          { text: str.slice(50, 52), color: "#d8c724" }, // Signal Strength
+          { text: str.slice(52, 54), color: "#ff00ff" }, // Repeater
+          { text: str.slice(54, 57), color: "#000000" }, // ETX + Checksum
+          { text: str.slice(57, 61), color: "#40ff00" }, // Year
+          { text: str.slice(61, 63), color: "#0ea5e9" }, // Month
+          { text: str.slice(63, 65), color: "#ca8a04" }, // Day
+          { text: str.slice(65, 67), color: "#15803d" }, // Hour
+          { text: str.slice(67, 69), color: "#ef4444" }, // Minute
+        ];
+
+        let html = "";
+        parts.forEach((part) => {
+          html += `<span style="color: ${part.color}">${part.text}</span>`;
+        });
+
+        return html;
+      }
+
+      function parseBoxHexString(hexString) {
+        console.log(hexString)
+        try {
+          document.getElementById("boxPreview").innerHTML =
+            renderBoxPreview(hexString);
+
+          document.getElementById("boxAccount").textContent = hex2dec(
+            mid(hexString, 7, 5)
+          );
+          document.getElementById("boxIndex").textContent = mid(
+            hexString,
+            5,
+            1
+          );
+          document.getElementById("boxSignalStrength").textContent = hex2dec(
+            mid(hexString, 51, 2)
+          );
+          document.getElementById("boxRepeater").textContent = hex2dec(
+            mid(hexString, 53, 2)
+          );
+
+          const eventType = getEventType(
+            mid(hexString, 48, 2),
+            mid(hexString, 36, 2)
+          );
+          document.getElementById("boxEventType").textContent = eventType;
+
+          document.getElementById("boxYear").textContent = hex2dec(
+            mid(hexString, 58, 4)
+          );
+          document.getElementById("boxMonth").textContent = hex2dec(
+            mid(hexString, 62, 2)
+          );
+          document.getElementById("boxDay").textContent = hex2dec(
+            mid(hexString, 64, 2)
+          );
+          document.getElementById("boxHour").textContent = hex2dec(
+            mid(hexString, 66, 2)
+          );
+          document.getElementById("boxMinute").textContent = hex2dec(
+            mid(hexString, 68, 2)
+          );
+        } catch (error) {
+          console.error("Error parsing box hex string:", error);
+        }
+      }
+
+      function generateBoxHexString() {
+        try {
+          const account = document.getElementById("genBoxAccount").value;
+          const index = document.getElementById("genBoxIndex").value;
+          const signalStrength = document.getElementById(
+            "genBoxSignalStrength"
+          ).value;
+          const repeater = document.getElementById("genBoxRepeater").value;
+
+          const eventType = document.getElementById("genBoxEventType").value;
+
+          const year = document.getElementById("genBoxYear").value;
+          const month = document.getElementById("genBoxMonth").value;
+          const day = document.getElementById("genBoxDay").value;
+          const hour = document.getElementById("genBoxHour").value;
+          const minute = document.getElementById("genBoxMinute").value;
+
+          if (
+            !validateInput(year, 2000, 9999) ||
+            !validateInput(month, 1, 12) ||
+            !validateInput(day, 1, 31) ||
+            !validateInput(hour, 0, 23)
+          ) {
+            alert("Error in timestamp values");
+            return;
+          }
+
+          let hexString = "DC1"; // Header
+          hexString += dec2hex(index, 1);
+          hexString += "7" //dummy type
+          hexString += dec2hex(account, 5);
+          hexString += "0".repeat(24); // Reserved space
+
+          // Handle medium and event type
+          if (eventType === "00-install") {
+            hexString += "09"; // Medium for Install
+            hexString += "0".repeat(10);
+            hexString += "00"; // Event type for Install
+          } else if (eventType === "00-testEvent") {
+            // Changed 'elif' to 'else if'
+            hexString += "0".repeat(14);
+          } else {
+            hexString += "00"; // Medium for other events
+            hexString += "0".repeat(10);
+            hexString += eventType; // Event type
+          }
+
+          hexString += "0";
+          hexString += dec2hex(signalStrength, 2);
+          hexString += dec2hex(repeater, 2);
+          hexString += "34"; // ETX + Checksum
+          hexString += dec2hex(year, 4);
+          hexString += dec2hex(month, 2);
+          hexString += dec2hex(day, 2);
+          hexString += dec2hex(hour, 2);
+          hexString += dec2hex(minute, 2);
+
+          console.log("eldar")
+          console.log(hexString)
+          console.log("eldar2")
+
+          document.getElementById("generatedBoxHex").innerHTML =
+            renderBoxPreview(hexString);
+        } catch (error) {
+          console.error("Error generating box hex string:", error);
+          alert("Error generating hex string. Please check your input values.");
+        }
+      }
+
+      function copyBoxHexString() {
+        const hexString = document
+          .getElementById("generatedBoxHex")
+          .textContent.trim();
+        copyToClipboard(hexString, "box");
+      }
+
+      // Add event listener
+      document
+        .getElementById("boxHexInput")
+        .addEventListener("input", function (e) {
+          parseBoxHexString(e.target.value);
+        });
+
+      // Initial parse for box tab
+      parseBoxHexString(document.getElementById("boxHexInput").value);
     </script>
   </body>
 </html>
