@@ -109,8 +109,8 @@ input {
 .value-box {
     border: 2px solid #ddd;
     border-radius: 14px;
-    padding: 10px;
-    margin-top: 7px;
+    padding: 5px;
+    margin-top: 10px;
     background-color: #f8f8f8;
     min-height: 50px;
     display: flex;
@@ -131,7 +131,7 @@ input {
     padding: 10px;
     margin: 7px 0;
     border: 1px solid #ddd;
-    border-radius: 6px;
+    border-radius: 1px;
     width: 100%;
     box-sizing: border-box;
     font-size: 1.6em;
@@ -166,9 +166,8 @@ button:hover {
 
 .result-section {
     margin-top: 28px;
-    padding: 21px;
+    padding: 10px;
     background: #f8f8f8;
-    border-radius: 6px;
 }
 
 select.generator-input {
@@ -184,11 +183,11 @@ select.generator-input option:disabled {
 .copy-button {
     background-color: #4caf50;
     color: white;
-    padding: 8px 16px;
+    padding: 16px 25px;
     border: none;
-    border-radius: 4px;
+    border-radius: 24px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 18px;
 }
 
 .copy-button:hover {
